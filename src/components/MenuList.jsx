@@ -1,52 +1,51 @@
-import { Menu } from 'antd'
-import React from 'react'
-import { AppstoreOutlined, AreaChartOutlined, BarsOutlined, HomeOutlined, PayCircleOutlined, SettingOutlined } from '@ant-design/icons'
+import { Menu } from 'antd';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { HomeOutlined, UserOutlined, SolutionOutlined, PhoneOutlined } from '@ant-design/icons';
 
-const MenuList = ({darkTheme}) => {
+const MenuList = ({ darkTheme }) => {
+    const navigate = useNavigate();
+
+    const getIconByName = (name) => {
+        switch (name) {
+            case "Ana Sayfa":
+                return <HomeOutlined />;
+            case "Hakkımda":
+                return <UserOutlined />;
+            case "Hizmetlerimiz":
+                return <SolutionOutlined />;
+            case "İletişim":
+                return <PhoneOutlined />;
+            default:
+                return null;
+        }
+    };
+
     const menulist = [
         {
             key: "home",
-            icon: <HomeOutlined />,
-            name: "Home"
+            icon: getIconByName("Ana Sayfa"),
+            name: "Ana Sayfa",
+            path: "/"
         },
         {
-            key: "activity",
-            icon: <AppstoreOutlined />,
-            name: "Activity"
+            key: "about",
+            icon: getIconByName("Hakkımda"),
+            name: "Hakkımda",
+            path: "/about"
         },
         {
-            key: "tasks",
-            icon: <BarsOutlined />,
-            name: "Tasks",
-            submenu: [
-                { key: "task-1", name: "Task 1" },
-                { key: "task-2", name: "Task 2" },
-                {
-                    key: "task-3",
-                    name: "Subtasks",
-                    subsubmenu: [
-                        { key: "subtask-1", name: "Subtask 1" },
-                        { key: "subtask-2", name: "Subtask 2" }
-                    ]
-                },
-            ]
+            key: "services",
+            icon: getIconByName("Hizmetlerimiz"),
+            name: "Hizmetlerimiz",
+            path: "/services"
         },
         {
-            key: "progress",
-            icon: <AreaChartOutlined />,
-            name: "Progress"
+            key: "contact",
+            icon: getIconByName("İletişim"),
+            name: "İletişim",
+            path: "/contact"
         },
-        {
-            key: "payment",
-            icon: <PayCircleOutlined />,
-            name: "Payment"
-        },
-        {
-            key: "setting",
-            icon: <SettingOutlined />,
-            name: "Setting"
-        },
-
     ];
 
     return (
@@ -58,20 +57,20 @@ const MenuList = ({darkTheme}) => {
                             subItem.subsubmenu ? (
                                 <Menu.SubMenu key={subItem.key} title={subItem.name}>
                                     {subItem.subsubmenu.map((subSubItem) => (
-                                        <Menu.Item key={subSubItem.key}>
+                                        <Menu.Item key={subSubItem.key} onClick={() => navigate(subSubItem.path)}>
                                             {subSubItem.name}
                                         </Menu.Item>
                                     ))}
                                 </Menu.SubMenu>
                             ) : (
-                                <Menu.Item key={subItem.key}>
+                                <Menu.Item key={subItem.key} onClick={() => navigate(subItem.path)}>
                                     {subItem.name}
                                 </Menu.Item>
                             )
                         ))}
                     </Menu.SubMenu>
                 ) : (
-                    <Menu.Item key={item.key} icon={item.icon}>
+                    <Menu.Item key={item.key} icon={item.icon} onClick={() => navigate(item.path)}>
                         {item.name}
                     </Menu.Item>
                 )
